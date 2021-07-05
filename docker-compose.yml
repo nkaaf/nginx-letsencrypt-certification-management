@@ -1,0 +1,84 @@
+version: "3.4"
+services:
+  certbot:
+    build:
+      context: .
+      dockerfile: certbot/Dockerfile
+      args:
+        - CERTBOT_IMAGE_VERSION
+        - CERTBOT_WEBROOT
+    image: ${CERTBOT_IMAGE_NAME}:${CERTBOT_IMAGE_VERSION}
+    container_name: ${CERTBOT_CONTAINER_NAME}
+    restart: unless-stopped
+    entrypoint: "/bin/sh -c './build_cli_ini.sh && touch /opt/certbot/healthy && trap exit TERM; while :; do certbot renew --noninteractive; sleep 12h & wait $${!}; done'"
+    healthcheck:
+      test: [ "CMD-SHELL", "test -f /opt/certbot/healthy" ]
+      interval: 2s
+      retries: 10
+      timeout: 2s
+    links:
+      - nginx
+    depends_on:
+      nginx:
+        condition: service_healthy
+    volumes:
+      - letsencrypt-lib:/var/lib/letsencrypt:Z
+      - letsencrypt:/etc/letsencrypt:z
+      - certbot-webroot:${CERTBOT_WEBROOT}:z
+      - ./exchange:/usr/local/share/exchange:z
+      - /var/log/letsencrypt:/var/log/letsencrypt:Z
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      - letsencrypt
+    environment:
+      - USER_EMAIL
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+      args:
+        - NGINX_IMAGE_VERSION
+        - CERTBOT_WEBROOT
+        - HTTP_PORT
+    image: ${NGINX_IMAGE_NAME}:${NGINX_IMAGE_VERSION}
+    container_name: ${NGINX_CONTAINER_NAME}
+    restart: unless-stopped
+    command: "/bin/sh -c 'nginx -t &>/dev/null && touch /usr/share/nginx/healthy && while :; do sleep 12h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    healthcheck:
+      test: [ "CMD-SHELL", "test -f /usr/share/nginx/healthy" ]
+      interval: 2s
+      retries: 10
+      timeout: 2s
+    ports:
+      - ${HTTP_PORT}:80
+      - ${HTTPS_PORT}:443
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:z
+      - ./nginx/upstreams/:/etc/nginx/upstreams:ro
+      - ./nginx/options/:/etc/nginx/options:ro
+      - letsencrypt:/etc/letsencrypt:ro
+      - certbot-webroot:${CERTBOT_WEBROOT}:ro
+      - ./exchange:/usr/local/share/exchange:ro
+      - /var/log/nginx:/var/log/nginx:Z
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    networks:
+      - letsencrypt
+      - nginx
+    environment:
+      - HTTPS_PORT
+
+networks:
+  letsencrypt:
+    name: ${LETSENCRYPT_NETWORK_NAME}
+  nginx:
+    name: ${NGINX_NETWORK_NAME}
+
+volumes:
+  letsencrypt:
+    name: ${LETSENCRYPT_VOLUME_NAME}
+  letsencrypt-lib:
+    name: ${LETSENCRYPT_LIB_VOLUME_NAME}
+  certbot-webroot:
+    name: ${CERTBOT_WEBROOT_VOLUME_NAME}
