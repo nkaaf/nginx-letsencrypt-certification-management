@@ -10,7 +10,7 @@ services:
     image: ${CERTBOT_IMAGE_NAME}:${CERTBOT_IMAGE_VERSION}
     container_name: ${CERTBOT_CONTAINER_NAME}
     restart: unless-stopped
-    entrypoint: "/bin/sh -c './build_cli_ini.sh && touch /opt/certbot/healthy && trap exit TERM; while :; do certbot renew --noninteractive; sleep 12h & wait $${!}; done'"
+    entrypoint: "/bin/sh -c 'rm -f /opt/certbot/healthy && ./build_cli_ini.sh && touch /opt/certbot/healthy && trap exit TERM; while :; do certbot renew --noninteractive; sleep 12h & wait $${!}; done'"
     healthcheck:
       test: [ "CMD-SHELL", "test -f /opt/certbot/healthy" ]
       interval: 2s
@@ -44,7 +44,7 @@ services:
     image: ${NGINX_IMAGE_NAME}:${NGINX_IMAGE_VERSION}
     container_name: ${NGINX_CONTAINER_NAME}
     restart: unless-stopped
-    command: "/bin/sh -c 'nginx -t &>/dev/null && touch /usr/share/nginx/healthy && while :; do sleep 12h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    command: "/bin/sh -c 'rm -f /usr/share/nginx/healthy && nginx -t &>/dev/null && touch /usr/share/nginx/healthy && while :; do sleep 12h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     healthcheck:
       test: [ "CMD-SHELL", "test -f /usr/share/nginx/healthy" ]
       interval: 2s
