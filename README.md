@@ -16,7 +16,7 @@ No more need to install these programs by your own or write complex nginx config
 - pre-configured but also customizable nginx
 - modern deployment with docker containers and docker-compose
 - automatically renewal of certificates
-- integrated history functions for ssl-certificate creation/update/revokation
+- integrated history functions for ssl-certificate creation/update/revocation
 - possibility to inform own programs/scripts at a change of certificates (see "Own Integrations" in Wiki)
 - easy logging/inforation gathering at errors
 
