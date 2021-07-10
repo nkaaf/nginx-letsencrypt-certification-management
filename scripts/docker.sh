@@ -37,6 +37,7 @@ function __check_docker_container() {
     __docker_compose_up "${_container_name}"
   else
     if [[ $(docker container inspect -f '{{.Config.Image}}' "${_container_name}") != "${_image_name}:${_image_version}" ]]; then
+      _debug "${_container_name} $(_translate i18n_DEBUG_RECREATE_WITH_DOCKER_COMPOSE)"
       __docker_compose_up "${_container_name}"
     fi
   fi
