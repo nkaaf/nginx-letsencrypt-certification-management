@@ -26,11 +26,15 @@ tag.
 ### nginx related
 
 For nginx related scripts you have to remove the nginx docker container, and the docker image (commonly). You will find
-the nginx-container-name, and the nginx-image-name in the .env file.
+the nginx-container-name, and the nginx-image-name in the .env file. If the release contains a version update for the
+component, you have to replace the version, in the .env, with the new one.
 
 ```bash
 docker container rm -f <nginx-container-name>
 docker rmi <nginx-image-name>
+# For updated version
+__new_version=$(cat .env.example | awk '$0 ~ /^NGINX_IMAGE_VERSION=/' | cut -d "=" -f2)
+sed -i "s/NGINX_IMAGE_VERSION.*/NGINX_IMAGE_VERSION=${__new_version}/" ".env"
 ```
 
 ### certbot related
@@ -40,6 +44,9 @@ This will be done analog to [nginx related](#nginx-related).
 ```bash
 docker container rm -f <certbot-container-name>
 docker rmi <certbot-image-name>
+# For updated version
+__new_version=$(cat .env.example | awk '$0 ~ /^CERTBOT_IMAGE_VERSION=/' | cut -d "=" -f2)
+sed -i "s/CERTBOT_IMAGE_VERSION.*/CERTBOT_IMAGE_VERSION=${__new_version}/" ".env"
 ```
 
 ## Releases
