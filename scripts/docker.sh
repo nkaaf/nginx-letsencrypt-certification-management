@@ -49,6 +49,7 @@ function __check_docker_container() {
       if [ "$_status" == "restarting" ]; then
         _date=$(date '+%Y-%m-%d %H:%M:%S')
         docker logs "${_container_name}" &>"$_main_dir/logs/docker_compose_restart_loop_${_container_name}_$_date.log"
+        docker container rm -f "${_container_name}"
         _error "${_container_name} $(_translate i18n_ERROR_DOCKER_CONTAINER_START_LOOP) $_main_dir/logs/docker_compose_restart_loop_${_container_name}_$_date.log"
       elif [ "$_status" == "paused" ] || [ "$_status" == "created" ] || [ "$_status" == "exited" ] || [ "$_status" == "dead" ]; then
         __docker_compose_up "${_container_name}"
