@@ -6,8 +6,8 @@ The project can have updates for three components:
 * [nginx related](#nginx-related)
 * [Certbot related](#certbot-related)
 
-For those you have to do different steps to update your setup. If you migrate to the next version, you only have to do
-the steps for the component of the version. If you migrate to a newer version, than the next, it's easier to update all
+For those, you have to do different steps to update your setup. If you migrate to the next version, you only have to do
+the steps for the component of the version. If you migrate to a newer version than the next, it's easier to update all
 three components, to be on the safe side.
 
 ## Git Migrations
