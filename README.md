@@ -16,7 +16,7 @@ No more need to install these programs by your own or write complex nginx config
 - pre-configured but also customizable nginx
 - modern deployment with docker containers and docker-compose
 - automatically renewal of certificates
-- integrated history functions for ssl-certificate creation/update/revocation
+- integrated history functions for certificate creation/update/revocation
 - possibility to inform own programs/scripts at a change of certificates (see "Own Integrations" in Wiki)
 - easy logging/inforation gathering at errors
 
@@ -26,7 +26,7 @@ No more need to install these programs by your own or write complex nginx config
 
 > git clone git@github.com:nkaaf/nginx-letsencrypt-certification-management.git
 >
-> Releases: https://github.com/nkaaf/nginx-letsencrypt-certification-management/releases
+> Suggest using a released version: https://github.com/nkaaf/nginx-letsencrypt-certification-management/releases
 
 2. Be sure that bash is installed!
 3. Run the main.sh script
