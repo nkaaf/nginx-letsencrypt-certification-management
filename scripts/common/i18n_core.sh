@@ -35,6 +35,10 @@ function _change_i18n() {
 function _translate() {
   local _i18n_str
 
+  if ! _check_value_is_set "$1"; then
+    _error "$1 $(_translate i18n_ERROR_PARAMETER_IS_UNSET)"
+  fi
+
   _i18n_str="${1}[$LANGUAGE]"
   echo -n "${!_i18n_str}"
 }
