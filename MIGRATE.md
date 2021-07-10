@@ -51,6 +51,15 @@ sed -i "s/CERTBOT_IMAGE_VERSION.*/CERTBOT_IMAGE_VERSION=${__new_version}/" ".env
 
 ## Releases
 
+### 1.2
+
+* [Executive Scripts](#executive-scripts)
+  
+* [nginx related](#nginx-related)
+    * update version from 1.21.0-alpine to 1.21.1-alpine
+* [certbot related](#certbot-related)
+    * update version from v1.16.0 to v1.17.0
+
 ### 1.1
 
 * [nginx related](#nginx-related)
