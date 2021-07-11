@@ -13,6 +13,7 @@ export i18n_OPTION_EXIT_CERTIFICATION_MENU=("Exit Certification Menu" "Zertifika
 # docker.sh
 export i18n_ERROR_FAILED_START_WITH_DOCKER_COMPOSE=("cannot be started with Docker Compose. Log path:" "konnte nicht mit Docker Compose gestartet werden. Log Pfad:")
 export i18n_DEBUG_STARTING_WITH_DOCKER_COMPOSE=("is starting with Docker Compose..." "wird mit Docker Compose gestartet...")
+export i18n_DEBUG_RECREATE_WITH_DOCKER_COMPOSE=("is recreating with Docker Compose..." "wird mit Docker Compose neu erstellt...")
 export i18n_ERROR_DIRECTORY_NOT_EXIST=(" does not exist" " existiert nicht")
 export i18n_DEBUG_CONTAINER_HEALTHY=("is healthy!" "ist gesund!")
 export i18n_ERROR_DOCKER_CONTAINER_START_LOOP=("Docker container is restarting in a loop. Log path:" "Docker container wird in einer Schleife neu gestartet. Log Pfad:")
