@@ -51,6 +51,10 @@ sed -i "s/CERTBOT_IMAGE_VERSION.*/CERTBOT_IMAGE_VERSION=${__new_version}/" ".env
 
 ## Releases
 
+### 1.3
+
+* [Executive Scripts](#executive-scripts)
+
 ### 1.2
 
 * [Executive Scripts](#executive-scripts)

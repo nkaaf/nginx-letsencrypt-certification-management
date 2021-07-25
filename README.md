@@ -24,7 +24,7 @@ No more need to install these programs on your own or write complex nginx config
 
 1. Clone/Download the sources:
 
-> git clone git@github.com:nkaaf/nginx-letsencrypt-certification-management.git
+> git clone https://github.com/nkaaf/nginx-letsencrypt-certification-management.git
 >
 > Suggest using a released version: https://github.com/nkaaf/nginx-letsencrypt-certification-management/releases
 
@@ -40,7 +40,7 @@ No more need to install these programs on your own or write complex nginx config
    use another version! Any changes to the versions of the programs can end up with unintended changes and eventually
    bugs, remember that!
 
-## Why Bash ???
+## Why Bash???
 
 Bash is the most widely used script language on Linux systems and well-advanced development of sh with many more
 practical features.
