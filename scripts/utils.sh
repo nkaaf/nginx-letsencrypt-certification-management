@@ -15,7 +15,9 @@ function _validate_email() {
 function _collect_data() {
   local _data
 
-  _data="\tThis Project Version: $(cat "$_main_dir/exchange/version")\n"
+  _data="\tOS Information: $(cat /proc/version)\n"
+
+  _data="${_data}\tThis Project Version: $(cat "$_main_dir/exchange/version")\n"
 
   if command -v docker &>/dev/null; then
     _data="${_data}\t$(docker --version)\n"
