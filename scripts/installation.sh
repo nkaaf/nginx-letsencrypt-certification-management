@@ -12,30 +12,81 @@ function __check_internet_connection() {
 
 function __check_installed() {
   local _command_name
-  local _app_name
-  local _package_name
 
   _command_name=$1
-  _app_name=$2
-  _package_name=$3
 
   if ! command -v "$_command_name" &>/dev/null; then
-    _echo "yellow" "$_app_name $(_translate i18n_INFO_INSTALL_NOW)"
-    if ! sudo apt install "$_package_name"; then
-      _error "$(_translate i18n_ERROR_WHILE_INSTALLING) $_app_name"
-    fi
-    _echo "green" "$_app_name $(_translate i18n_SUCCESS_INSTALLATION)"
+    return 1
   fi
 }
 
+function __install_via_package_manager() {
+  local _package_name
+
+  _package_name=$1
+
+  # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
+  _echo "yellow" "$_package_name $(_translate i18n_INFO_INSTALL_NOW)"
+  _debug "$_package_name $(_translate i18n_INSTALL_WITH_PACKAGE_MANAGER)"
+  if ! sudo apt install "$_package_name"; then
+    _error "$(_translate i18n_ERROR_WHILE_INSTALLING_PACKAGE_MANAGER) $_package_name"
+  fi
+  _echo "green" "$_package_name $(_translate i18n_SUCCESS_INSTALLATION)"
+}
+
+function __install_via_pip() {
+  local _package_name
+
+  _package_name=$1
+
+  _echo "yellow" "$_package_name $(_translate i18n_INFO_INSTALL_NOW)"
+  _debug "$_package_name $(_translate i18n_INSTALL_WITH_PIP)"
+  if ! pip install "$1"; then
+    _error "$(_translate i18n_ERROR_WHILE_INSTALLING_WITH_PIP) $_package_name"
+  fi
+  _echo "green" "$_package_name $(_translate i18n_SUCCESS_INSTALLATION)"
+}
+
 function __check_system_installation() {
+  local _arch
+  local _tmp_version
+
+  _arch=$(uname -m)
+
+  # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
   if ! dpkg -l apt &>/dev/null; then
-    # TODO: support other package manager? or install Docker (Compose) via plain installation script?
     _error "$(_translate i18n_ERROR_APT_IS_MISSING)"
   fi
 
-  __check_installed "docker" "Docker" "docker"
-  __check_installed "docker-compose" "Docker Compose" "docker-compose"
+  if ! __check_installed "docker"; then
+    __install_via_package_manager "docker"
+  fi
+
+  if ! __check_installed "docker-compose"; then
+    if [ "$_arch" != "x86_64" ]; then
+      if ! __check_installed "python3"; then
+        __install_via_package_manager "python3"
+      fi
+
+      if ! __check_installed "pip"; then
+        __install_via_package_manager "python3-pip"
+      fi
+
+      _tmp_version=$(python --version | sed "s/Python //")
+      if ! _version_higher_or_equals_point_delimiter "$_tmp_version" "3.6"; then
+        _error "$(_translate i18n_ERROR_PYTHON_VERSION_MISMATCH)"
+      fi
+
+      __install_via_pip "docker-compose"
+    else
+      __install_via_package_manager "docker-compose"
+    fi
+  fi
+
+  _tmp_version=$(docker-compose --version | sed "s/docker-compose version //" | sed "s/, build .*//")
+  if ! _version_higher_or_equals_point_delimiter "$_tmp_version" "1.22.0"; then
+    _error "$(_translate i18n_ERROR_DOCKER_COMPOSE_VERSION_MISMATCH)"
+  fi
 }
 
 function __enter_email() {
