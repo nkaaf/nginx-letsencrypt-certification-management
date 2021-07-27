@@ -17,7 +17,7 @@ function _certbot_menu() {
     echo "5. $(_translate i18n_OPTION_UPDATE_CERTIFICATE)"
     echo "6. $(_translate i18n_OPTION_SHOW_HISTORY)"
     echo "7. $(_translate i18n_OPTION_EXIT_CERTIFICATION_MENU)"
-    echo "$(_translate i18n_ENTER_NUMBER_MENU)"
+    echo "$(_translate i18n_ENTER_NUMBER_MENU "[1-7]")"
     read -r _answer
     echo "----------"
 

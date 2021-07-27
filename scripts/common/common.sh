@@ -71,7 +71,7 @@ function _check_value_is_set() {
   _var_name=$1
   _var_value=${!_var_name}
   if ! _is_set "$_var_value"; then
-    _error "$_var_name $(_translate i18n_ERROR_PARAMETER_IS_UNSET)"
+    _error "$(_translate i18n_ERROR_PARAMETER_IS_UNSET "$_var_name")"
   fi
 }
 

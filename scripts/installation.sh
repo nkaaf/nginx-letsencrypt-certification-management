@@ -26,12 +26,12 @@ function __install_via_package_manager() {
   _package_name=$1
 
   # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
-  _echo "yellow" "$_package_name $(_translate i18n_INFO_INSTALL_NOW)"
-  _debug "$_package_name $(_translate i18n_INSTALL_WITH_PACKAGE_MANAGER)"
+  _echo "yellow" "$(_translate i18n_INFO_INSTALL_NOW "$_package_name")"
+  _debug "$(_translate i18n_INSTALL_WITH_PACKAGE_MANAGER "$_package_name")"
   if ! sudo apt install "$_package_name"; then
-    _error "$(_translate i18n_ERROR_WHILE_INSTALLING_PACKAGE_MANAGER) $_package_name"
+    _error "$(_translate i18n_ERROR_WHILE_INSTALLING_PACKAGE_MANAGER "$_package_name")"
   fi
-  _echo "green" "$_package_name $(_translate i18n_SUCCESS_INSTALLATION)"
+  _echo "green" "$(_translate i18n_SUCCESS_INSTALLATION "$_package_name")"
 }
 
 function __install_via_pip() {
@@ -39,12 +39,12 @@ function __install_via_pip() {
 
   _package_name=$1
 
-  _echo "yellow" "$_package_name $(_translate i18n_INFO_INSTALL_NOW)"
-  _debug "$_package_name $(_translate i18n_INSTALL_WITH_PIP)"
+  _echo "yellow" "$(_translate i18n_INFO_INSTALL_NOW "$_package_name")"
+  _debug "$(_translate i18n_INSTALL_WITH_PIP "$_package_name")"
   if ! pip install "$1"; then
-    _error "$(_translate i18n_ERROR_WHILE_INSTALLING_WITH_PIP) $_package_name"
+    _error "$(_translate i18n_ERROR_WHILE_INSTALLING_WITH_PIP " $_package_name")"
   fi
-  _echo "green" "$_package_name $(_translate i18n_SUCCESS_INSTALLATION)"
+  _echo "green" "$(_translate i18n_SUCCESS_INSTALLATION "$_package_name")"
 }
 
 function __check_system_installation() {

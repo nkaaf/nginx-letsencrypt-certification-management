@@ -50,7 +50,7 @@ while :; do
       ;;
     *)
       if [ "$1" != "" ]; then
-        _echo "yellow" "$(_translate i18n_WARNING_NOT_PARSING) $1"
+        _echo "yellow" "$(_translate i18n_WARNING_NOT_PARSING "$1")"
       fi
       break
       ;;
@@ -91,7 +91,7 @@ function __main_menu() {
     echo "3. $_language_option"
 
     echo "4. $(_translate i18n_OPTION_EXIT_PROGRAM)"
-    echo "$(_translate i18n_ENTER_NUMBER_MENU)"
+    echo "$(_translate i18n_ENTER_NUMBER_MENU "[1-4]")"
     read -r _answer
     echo "----------"
     case $_answer in

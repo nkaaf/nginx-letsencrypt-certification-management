@@ -31,14 +31,28 @@ function _change_i18n() {
   fi
 }
 
-# TODO: translate with parameters
 function _translate() {
   local _i18n_str
+  local _i18n_name
+  local _parameters
+  local _parameters_size
 
-  if ! _check_value_is_set "$1"; then
-    _error "$1 $(_translate i18n_ERROR_PARAMETER_IS_UNSET)"
+  _i18n_name=$1
+  shift
+  _parameters=("$@")
+
+  if ! _check_value_is_set "$_i18n_name"; then
+    _error "$(_translate i18n_ERROR_PARAMETER_IS_UNSET "$_i18n_name")"
   fi
 
-  _i18n_str="${1}[$LANGUAGE]"
-  echo -n "${!_i18n_str}"
+  _i18n_str="${_i18n_name}[$LANGUAGE]"
+  _i18n_str=${!_i18n_str}
+
+  _parameters_size=${#_parameters[@]}
+
+  for ((i = 0; i < _parameters_size; i++)); do
+    _i18n_str=${_i18n_str/\{\}/${_parameters[$i]}}
+  done
+
+  echo -n "$_i18n_str"
 }

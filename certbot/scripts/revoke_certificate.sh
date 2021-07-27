@@ -29,7 +29,7 @@ function __choose_revoke_reason() {
     echo "3. $(_translate i18n_OPTION_SUPERSEDED)"
     echo "4. $(_translate i18n_OPTION_CESSATION_OF_OPERATION)"
     echo "5. $(_translate i18n_OPTION_MISCELLANEOUS)"
-    echo "$(_translate i18n_ENTER_NUMBER_MENU) (Default: 5)"
+    echo "$(_translate i18n_ENTER_NUMBER_MENU "(Default: 5)")"
     read -r _reason
     echo "----------"
 
@@ -52,10 +52,10 @@ __choose_revoke_reason _reason
 _command_to_execute+=("--reason" "$_reason")
 
 if ! _eval "${_command_to_execute[@]}"; then
-  _error "$(_translate i18n_ERROR_REVOKE_CERTIFICATE) '${_command_to_execute[*]}'"
+  _error "$(_translate i18n_ERROR_REVOKE_CERTIFICATE "${_command_to_execute[*]}")"
 fi
 
-echo "$_cert_name $(_translate i18n_SUCCESS_REVOKE_CERTIFICATE)"
+echo "$(_translate i18n_SUCCESS_REVOKE_CERTIFICATE "$_cert_name")"
 
 _write_action "revoke" "$_cert_name"
 

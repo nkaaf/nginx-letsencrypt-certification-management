@@ -31,9 +31,9 @@ function __choose_new_domains() {
 
   while :; do
     echo "$(_translate i18n_HEADLINE_CHOOSE_UPDATED_DOMAINS)"
-    echo "$(_translate i18n_CURRENT_DOMAINS) ${_current_domains[*]}"
+    echo "$(_translate i18n_CURRENT_DOMAINS "${_current_domains[*]}")"
     if [ ${#_new_domains} -ne 0 ]; then
-      echo "$(_translate i18n_NEW_DOMAINS) ${_new_domains[*]}"
+      echo "$(_translate i18n_NEW_DOMAINS "${_new_domains[*]}")"
       echo "$(_translate i18n_QUESTION_ADD_ANOTHER)"
       read -r _answer
       if [ "$_answer" != "Y" ] && [ "$_answer" != "y" ] && [ "$_answer" != "J" ] && [ "$_answer" != "j" ]; then
@@ -76,9 +76,9 @@ for _domain in "${_domains[@]}"; do
 done
 
 if _eval "${_command_to_execute[@]}"; then
-  echo "$_cert_name $(_translate i18n_SUCCESS_UPDATE_CERTIFICATE)"
+  echo "$(_translate i18n_SUCCESS_UPDATE_CERTIFICATE "$_cert_name")"
 else
-  _error "$(_translate i18n_ERROR_UPDATE_CERTIFICATE) '${_command_to_execute[*]}'"
+  _error "$(_translate i18n_ERROR_UPDATE_CERTIFICATE "${_command_to_execute[*]}")"
 fi
 
 _write_action "update" "$_cert_name" "${_domains[@]}"

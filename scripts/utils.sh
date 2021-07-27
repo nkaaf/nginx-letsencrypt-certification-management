@@ -40,11 +40,11 @@ function _version_higher_or_equals_point_delimiter() {
   local _min_version
   local _min_version_array
 
-  _actually_version=$1
-  _min_version=$2
+  _actually_version="$1"
+  _min_version="$2"
 
-  mapfile -t _actually_version_array < <(${_actually_version//./ })
-  mapfile -t _min_version_array < <(${_min_version//./ })
+  mapfile -t _actually_version_array < <(echo -n "$_actually_version" | sed 's/\./\n/g')
+  mapfile -t _min_version_array < <(echo -n "$_min_version" | sed 's/\./\n/g')
 
   for i in "${!_min_version_array[@]}"; do
     if [ "${_min_version_array[$i]}" -gt "${_actually_version_array[$i]}" ]; then

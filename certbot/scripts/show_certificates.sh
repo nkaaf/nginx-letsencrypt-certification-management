@@ -25,9 +25,9 @@ fi
 
 if ! _eval "${_command_to_execute[@]}"; then
   if [[ $_mode -eq 0 ]]; then
-    _error "$(_translate i18n_ERROR_SHOW_ALL_CERTIFICATES) '${_command_to_execute[*]}'"
+    _error "$(_translate i18n_ERROR_SHOW_ALL_CERTIFICATES "${_command_to_execute[*]}")"
   else
-    _error "$(_translate i18n_ERROR_SHOW_CERTIFICATE) '${_command_to_execute[*]}'"
+    _error "$(_translate i18n_ERROR_SHOW_CERTIFICATE "${_command_to_execute[*]}")"
   fi
 fi
 
