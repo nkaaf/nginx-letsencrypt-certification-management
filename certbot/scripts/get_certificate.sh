@@ -68,7 +68,7 @@ if ! _eval "${_command_to_execute[@]}"; then
   if [ $_wildcard == true ]; then
     __revert_wildcard_config_changes
   fi
-  _error "$(_translate i18n_ERROR_CREATE_CERTIFICATE) '${_command_to_execute[*]}'"
+  _error "$(_translate i18n_ERROR_CREATE_CERTIFICATE "${_command_to_execute[*]}")"
 fi
 
 if [ $_wildcard == true ]; then

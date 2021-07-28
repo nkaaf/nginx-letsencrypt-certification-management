@@ -9,7 +9,7 @@ function _nginx_restart() {
 
   _debug "$(_translate i18n_DEBUG_RESTARTING_NGINX)"
   if ! docker exec "${NGINX_CONTAINER_NAME}" nginx -s reload; then
-    _error "${NGINX_CONTAINER_NAME} $(_translate i18n_ERROR_RESTARTING_NGINX)"
+    _error "$(_translate i18n_ERROR_RESTARTING_NGINX "$NGINX_CONTAINER_NAME")"
   fi
   _echo "green" "$(_translate i18n_SUCCESS_RESTARTING_NGINX)"
 }

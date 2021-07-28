@@ -15,7 +15,7 @@ while :; do
   echo "2. $(_translate i18n_OPTION_SHOW_UPDATE_HISTORY)"
   echo "3. $(_translate i18n_OPTION_SHOW_REVOCATION_HISTORY)"
   echo "4. $(_translate i18n_OPTION_EXIT_HISTORY_MENU)"
-  echo "$(_translate i18n_ENTER_NUMBER_MENU)"
+  echo "$(_translate i18n_ENTER_NUMBER_MENU "[1-4]")"
   read -r _answer
   echo "----------"
 

@@ -11,14 +11,14 @@ function __docker_compose_up() {
   _pwd=$(pwd)
 
   _date=$(date '+%Y-%m-%d %H:%M:%S')
-  cd "$_main_dir" || _error "$_main_dir $(_translate i18n_ERROR_DIRECTORY_NOT_EXIST)"
+  cd "$_main_dir"
   if ! docker-compose up -d "$1" &>"$_main_dir/logs/docker_compose_up_$1_$_date.log"; then
-    _error "$1 $(_translate i18n_ERROR_FAILED_START_WITH_DOCKER_COMPOSE) $_main_dir/logs/docker_compose_up_$1_$_date.log"
+    _error "$(_translate i18n_ERROR_FAILED_START_WITH_DOCKER_COMPOSE "$1" "$_main_dir/logs/docker_compose_up_$1_$_date.log")"
   else
     rm -f "$_main_dir/logs/docker_compose_up_$1_$_date.log"
   fi
 
-  cd "$_pwd" || _error "$_pwd $(_translate i18n_ERROR_DIRECTORY_NOT_EXIST)"
+  cd "$_pwd"
 }
 
 function __check_docker_container() {
@@ -33,11 +33,11 @@ function __check_docker_container() {
   _image_version=$3
 
   if ! docker container inspect -f '{{.State.Health.Status}}' "${_container_name}" &>/dev/null; then
-    _debug "${_container_name} $(_translate i18n_DEBUG_STARTING_WITH_DOCKER_COMPOSE)"
+    _debug "$(_translate i18n_DEBUG_STARTING_WITH_DOCKER_COMPOSE "$_container_name")"
     __docker_compose_up "${_container_name}"
   else
     if [[ $(docker container inspect -f '{{.Config.Image}}' "${_container_name}") != "${_image_name}:${_image_version}" ]]; then
-      _debug "${_container_name} $(_translate i18n_DEBUG_RECREATE_WITH_DOCKER_COMPOSE)"
+      _debug "$(_translate i18n_DEBUG_RECREATE_WITH_DOCKER_COMPOSE "$_container_name")"
       __docker_compose_up "${_container_name}"
     fi
   fi
@@ -50,7 +50,7 @@ function __check_docker_container() {
         _date=$(date '+%Y-%m-%d %H:%M:%S')
         docker logs "${_container_name}" &>"$_main_dir/logs/docker_compose_restart_loop_${_container_name}_$_date.log"
         docker container rm -f "${_container_name}"
-        _error "${_container_name} $(_translate i18n_ERROR_DOCKER_CONTAINER_START_LOOP) $_main_dir/logs/docker_compose_restart_loop_${_container_name}_$_date.log"
+        _error "$(_translate i18n_ERROR_DOCKER_CONTAINER_START_LOOP "$_container_name" "$_main_dir/logs/docker_compose_restart_loop_${_container_name}_$_date.log")"
       elif [ "$_status" == "paused" ] || [ "$_status" == "created" ] || [ "$_status" == "exited" ] || [ "$_status" == "dead" ]; then
         __docker_compose_up "${_container_name}"
       fi
@@ -59,7 +59,7 @@ function __check_docker_container() {
     _status=0
     if [ "$(docker container inspect -f '{{.State.Health.Status}}' "${_container_name}")" == "healthy" ]; then
       _status=1
-      _debug "${_container_name} $(_translate i18n_DEBUG_CONTAINER_HEALTHY)"
+      _debug "$(_translate i18n_DEBUG_CONTAINER_HEALTHY "$_container_name")"
     else
       sleep 1s
     fi

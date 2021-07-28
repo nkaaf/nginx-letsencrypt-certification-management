@@ -9,7 +9,7 @@ _init_script "$0"
 _init_i18n
 
 if ! [ -f "/usr/local/share/exchange/actions/get.action" ]; then
-  _error "$(_translate i18n_ERROR_FILE_NOT_EXISTS) /usr/local/share/exchange/actions/get.action"
+  _error "$(_translate i18n_ERROR_FILE_NOT_EXISTS "/usr/local/share/exchange/actions/get.action")"
 fi
 
 _action=$(cat "/usr/local/share/exchange/actions/get.action")

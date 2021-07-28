@@ -79,7 +79,7 @@ function _output_custom_list_of_certificates() {
       for _i in "${!_certificate_names[@]}"; do
         echo "$((_i + 1)): ${_certificate_names[$_i]} (Domains: ${_certificate_domains[$_i]})"
       done
-      echo "$(_translate i18n_ENTER_NUMBER_MENU)"
+      echo "$(_translate i18n_ENTER_NUMBER_MENU "[1-${#Äcertificate_names[@]}]")"
       read -r _chosen_certificate
       echo "----------"
 
