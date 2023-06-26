@@ -1,8 +1,10 @@
 include /etc/nginx/upstreams/{{CERTIFICATE_NAME}}.conf*;
 
 server {
-    listen {{HTTPS_PORT}} ssl;
-    listen [::]:{{HTTPS_PORT}} ssl;
+    listen {{HTTPS_PORT}};
+    listen [::]:{{HTTPS_PORT}};
+
+    http2 on;
 
     server_name {{DOMAIN_NAMES}};
 
