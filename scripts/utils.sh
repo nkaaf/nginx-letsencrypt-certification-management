@@ -25,8 +25,8 @@ function _collect_data() {
     _data="${_data}\tDocker is not installed!\n"
   fi
 
-  if command -v docker-compose &>/dev/null; then
-    _data="${_data}\t$(docker-compose --version)\n"
+  if dpkg -l "docker-compose-plugin" &>/dev/null; then
+    _data="${_data}\t$(docker compose version)\n"
   else
     _data="${_data}\tDocker Compose is not installed!\n"
   fi

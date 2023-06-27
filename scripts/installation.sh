@@ -11,11 +11,11 @@ function __check_internet_connection() {
 }
 
 function __check_installed() {
-  local _command_name
+  local _package_name
 
-  _command_name=$1
+  _package_name=$1
 
-  if ! command -v "$_command_name" &>/dev/null; then
+  if ! dpkg -l "$_package_name" &>/dev/null; then
     return 1
   fi
 }
@@ -48,11 +48,6 @@ function __install_via_pip() {
 }
 
 function __check_system_installation() {
-  local _arch
-  local _tmp_version
-
-  _arch=$(uname -m)
-
   # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
   if ! dpkg -l apt &>/dev/null; then
     _error "$(_translate i18n_ERROR_APT_IS_MISSING)"
@@ -62,30 +57,8 @@ function __check_system_installation() {
     __install_via_package_manager "docker"
   fi
 
-  if ! __check_installed "docker-compose"; then
-    if [ "$_arch" != "x86_64" ]; then
-      if ! __check_installed "python3"; then
-        __install_via_package_manager "python3"
-      fi
-
-      if ! __check_installed "pip"; then
-        __install_via_package_manager "python3-pip"
-      fi
-
-      _tmp_version=$(python --version | sed "s/Python //")
-      if ! _version_higher_or_equals_point_delimiter "$_tmp_version" "3.6"; then
-        _error "$(_translate i18n_ERROR_PYTHON_VERSION_MISMATCH)"
-      fi
-
-      __install_via_pip "docker-compose"
-    else
-      __install_via_package_manager "docker-compose"
-    fi
-  fi
-
-  _tmp_version=$(docker-compose --version | sed "s/docker-compose version //" | sed "s/, build .*//")
-  if ! _version_higher_or_equals_point_delimiter "$_tmp_version" "1.22.0"; then
-    _error "$(_translate i18n_ERROR_DOCKER_COMPOSE_VERSION_MISMATCH)"
+  if ! __check_installed "docker-compose-plugin"; then
+    __install_via_package_manager "docker-compose-plugin"
   fi
 }
 
