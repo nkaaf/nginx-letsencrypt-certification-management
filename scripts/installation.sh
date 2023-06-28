@@ -10,6 +10,16 @@ function __check_internet_connection() {
   fi
 }
 
+function __command_exists() {
+  local _command
+
+  _command=$1
+
+  if ! command -v "$_command" > /dev/null 2>&1; then
+    return 1
+  fi
+}
+
 function __check_installed() {
   local _package_name
 
@@ -34,6 +44,25 @@ function __install_via_package_manager() {
   _echo "green" "$(_translate i18n_SUCCESS_INSTALLATION "$_package_name")"
 }
 
+function __install_docker() {
+  if ! __check_installed "curl"; then
+    __install_via_package_manager "curl"
+  fi
+
+  curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+
+  user="$(id -un 2>/dev/null || true)"
+  if [ "$user" ] != [ "root" ]; then
+    if ! __command_exists "sudo"; then
+      __install_via_package_manager "sudo"
+    fi
+    sudo sh /tmp/get-docker.sh
+  else
+    sh /tmp/get-docker.sh
+  fi
+}
+
+# DEPRECATED: not in use anymore and no warranty that result will be as expected
 function __install_via_pip() {
   local _package_name
 
@@ -54,7 +83,7 @@ function __check_system_installation() {
   fi
 
   if ! __check_installed "docker"; then
-    __install_via_package_manager "docker"
+    __install_docker
   fi
 
   if ! __check_installed "docker-compose-plugin"; then
