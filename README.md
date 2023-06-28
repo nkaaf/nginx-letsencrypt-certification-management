@@ -12,9 +12,9 @@ No more need to install these programs on your own or write complex nginx config
 ## Features
 
 - i18n (Internationalization) for German and English.
-- highly secure TLS configurations for nginx (see [BSI sources](#security-sources))
+- highly secure TLS configurations for nginx (see [sources](#security-sources))
 - pre-configured but also customizable nginx
-- modern deployment with docker containers and docker-compose
+- modern deployment with docker containers and docker compose
 - automatically renewal of certificates
 - integrated history functions for certificate creation/update/revocation
 - possibility to inform own programs/scripts at a change of certificates (see "Own Integrations" in Wiki)
@@ -55,7 +55,18 @@ Furthermore, the usage of these scripts is quite easy.
 
 * Overview: https://www.bsi.bund.de/DE/Themen/Oeffentliche-Verwaltung/Mindeststandards/TLS-Protokoll/TLS-Protokoll_node.html
 * Changelog: https://www.bsi.bund.de/DE/Themen/Oeffentliche-Verwaltung/Mindeststandards/TLS-Protokoll/Aenderungsuebersicht_MST_TLS/Aenderungsuebersicht_TLS_node.html
-* https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR02102/BSI-TR-02102-2.pdf?__blob=publicationFile (Version 2021-01)
-* https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR03116/BSI-TR-03116-4.pdf?__blob=publicationFile (Version 23.02.2021)
-* https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Mindeststandards/Hilfsdokument_Mindeststandard_BSI_TLS_Version_2_2.pdf?__blob=publicationFile (Version 2.2 of 03.05.2021)
-* https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Mindeststandards/Mindeststandard_BSI_TLS_Version_2_2.pdf?__blob=publicationFile (Version 2.2 of 03.05.2021)
+* TR-02102: https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr02102/tr02102_node.html
+* TR-03116: https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/Technische-Richtlinien/TR-nach-Thema-sortiert/tr03116/TR-03116_node.html
+
+#### Documents
+
+* APP.3.2 Webserver: https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/IT-GS-Kompendium_Einzel_PDFs_2023/06_APP_Anwendungen/APP_3_2_Webserver_Edition_2023.pdf?__blob=publicationFile&v=3 (Edition 2023)
+* TR-02102-1 Kryptografische Verfahren - Empfehlungen und Schlüssellängen: https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR02102/BSI-TR-02102.pdf?__blob=publicationFile&v=8 (Version 2023-01, Stand: 09. Januar 2023)
+* TR-02102-2 Kryptografische Verfahren - Verwendung von Transport Layer Security (TLS): https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR02102/BSI-TR-02102-2.pdf?__blob=publicationFile (Version 2023-01)
+* Mindeststandard des BSI zur Verwendung von Transport Layer Security: https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Mindeststandards/Mindeststandard_BSI_TLS_Version_2_4.pdf?__blob=publicationFile&v=4 (Version 2.4 vom 25.05.2023)
+* Hilfsdokument zum Mindeststandard des BSI zur Verwendung von Transport Layer Security V2.4: https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Mindeststandards/Hilfsdokument_Mindeststandard_BSI_TLS_Version_2_4.pdf?__blob=publicationFile&v=3 (Version 2.4 vom 25.05.2023)
+
+#### Information for projects for the German Government
+
+* TR-03116-4 Kryptografische Vorgaben für Projekte der Bundesregierung - Kommunikationsverfahren in Anwendungen: https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR03116/BSI-TR-03116-4.pdf?__blob=publicationFile (Version 07.03.2023)
+* TLS-Checkliste 2023: https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR03116/TLS-Checkliste.pdf?__blob=publicationFile&v=5 (Stand 2023, Datum: 7. März 2023)

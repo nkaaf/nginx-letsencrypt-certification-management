@@ -4,6 +4,8 @@ server {
     listen {{HTTPS_PORT}} ssl;
     listen [::]:{{HTTPS_PORT}} ssl;
 
+    http2 on;
+
     server_name {{DOMAIN_NAMES}};
 
     ssl_certificate /etc/letsencrypt/live/{{CERTIFICATE_NAME}}/fullchain.pem;

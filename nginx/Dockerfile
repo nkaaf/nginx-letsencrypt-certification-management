@@ -22,8 +22,8 @@ ARG HTTP_PORT
 
 RUN apk add --no-cache bash \
     && apk add --no-cache --virtual .build-deps openssl \
-    # https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR02102/BSI-TR-02102-2.pdf?__blob=publicationFile&v=2#page=16
-    ## DH 2000 Bit: 2022
-    && openssl dhparam -out /etc/nginx/ssl-dhparams.pem 2000 \
+    # https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR02102/BSI-TR-02102-2.pdf?__blob=publicationFile&v=2#page=17
+    ## DH 3000 Bit: 2029+
+    && openssl dhparam -out /etc/nginx/ssl-dhparams.pem 3000 \
     && apk del .build-deps \
     && ./build_nginx_conf.sh
