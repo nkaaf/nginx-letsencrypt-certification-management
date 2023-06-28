@@ -19,13 +19,13 @@ function _collect_data() {
 
   _data="${_data}\tThis Project Version: $(cat "$_main_dir/exchange/version")\n"
 
-  if command -v docker &>/dev/null; then
+  if _command_exists "docker"; then
     _data="${_data}\t$(docker --version)\n"
   else
     _data="${_data}\tDocker is not installed!\n"
   fi
 
-  if dpkg --status "docker-compose-plugin" &>/dev/null; then
+  if _check_installed "docker-compose-plugin"; then
     _data="${_data}\t$(docker compose version)\n"
   else
     _data="${_data}\tDocker Compose is not installed!\n"

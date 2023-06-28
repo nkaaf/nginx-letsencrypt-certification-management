@@ -10,26 +10,6 @@ function __check_internet_connection() {
   fi
 }
 
-function __command_exists() {
-  local _command
-
-  _command=$1
-
-  if ! command -v "$_command" > /dev/null 2>&1; then
-    return 1
-  fi
-}
-
-function __check_installed() {
-  local _package_name
-
-  _package_name=$1
-
-  if ! dpkg --status "$_package_name" &>/dev/null; then
-    return 1
-  fi
-}
-
 function __install_via_package_manager() {
   local _package_name
 
@@ -44,8 +24,10 @@ function __install_via_package_manager() {
   _echo "green" "$(_translate i18n_SUCCESS_INSTALLATION "$_package_name")"
 }
 
+# Install Docker via the installation script by the Docker Team. It is not recommended, but the best way to install Docker on different platforms.
+# Not installing the Rootless Dockerd, because it would prevent the nginx to get the IP of the Requesting Client during the request
 function __install_docker() {
-  if ! __check_installed "curl"; then
+  if ! _check_installed "curl"; then
     __install_via_package_manager "curl"
   fi
 
@@ -53,12 +35,16 @@ function __install_docker() {
 
   user="$(id -un 2>/dev/null || true)"
   if [ "$user" != "root" ]; then
-    if ! __command_exists "sudo"; then
-      __install_via_package_manager "sudo"
-    fi
-    sudo sh /tmp/get-docker.sh
+    sudo sh /tmp/get-docker.sh &>/dev/null
   else
-    sh /tmp/get-docker.sh
+    sh /tmp/get-docker.sh &>/dev/null
+  fi
+
+  # Post-Installation: Add Docker group to current user
+  if ! _group_exists "docker"; then
+    sudo groupadd docker &>/dev/null
+    sudo usermod -aG docker "$USER" &>/dev/null
+    newgrp docker
   fi
 }
 
@@ -78,15 +64,15 @@ function __install_via_pip() {
 
 function __check_system_installation() {
   # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
-  if ! dpkg --status apt &>/dev/null; then
+  if ! _check_installed "apt" &>/dev/null; then
     _error "$(_translate i18n_ERROR_APT_IS_MISSING)"
   fi
 
-  if ! __check_installed "docker"; then
+  if ! _check_installed "docker"; then
     __install_docker
   fi
 
-  if ! __check_installed "docker-compose-plugin"; then
+  if ! _check_installed "docker-compose-plugin"; then
     __install_via_package_manager "docker-compose-plugin"
   fi
 }
