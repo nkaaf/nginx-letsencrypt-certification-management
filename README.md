@@ -35,7 +35,7 @@ No more need to install these programs on your own or write complex nginx config
 
 4. The script will check if the required software is installed and if the environment is set up correctly
 5. Normally you have to enter your email for Let's encrypt.
-6. If you are familiar with docker and docker-compose you can change the environment variables of the .env file by
+6. If you are familiar with docker and docker compose you can change the environment variables of the .env file by
    yourself. This project is tested and rely on the latest versions of the components unless there is any good reason to
    use another version! Any changes to the versions of the programs can end up with unintended changes and eventually
    bugs, remember that!

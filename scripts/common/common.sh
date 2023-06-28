@@ -98,3 +98,33 @@ function _eval() {
     return 1
   fi
 }
+
+function _command_exists() {
+  local _command
+
+  _command=$1
+
+  if ! command -v "$_command" >/dev/null 2>&1; then
+    return 1
+  fi
+}
+
+function _check_installed() {
+  local _package_name
+
+  _package_name=$1
+
+  if ! dpkg --status "$_package_name" &>/dev/null; then
+    return 1
+  fi
+}
+
+function _group_exists() {
+  local _group
+
+  _group=$1
+
+  if ! getent group "$_group" &>/dev/null; then
+    return 1
+  fi
+}

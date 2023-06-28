@@ -10,16 +10,6 @@ function __check_internet_connection() {
   fi
 }
 
-function __check_installed() {
-  local _command_name
-
-  _command_name=$1
-
-  if ! command -v "$_command_name" &>/dev/null; then
-    return 1
-  fi
-}
-
 function __install_via_package_manager() {
   local _package_name
 
@@ -28,12 +18,37 @@ function __install_via_package_manager() {
   # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
   _echo "yellow" "$(_translate i18n_INFO_INSTALL_NOW "$_package_name")"
   _debug "$(_translate i18n_INSTALL_WITH_PACKAGE_MANAGER "$_package_name")"
-  if ! sudo apt install "$_package_name"; then
+  if ! sudo apt install --yes "$_package_name"; then
     _error "$(_translate i18n_ERROR_WHILE_INSTALLING_PACKAGE_MANAGER "$_package_name")"
   fi
   _echo "green" "$(_translate i18n_SUCCESS_INSTALLATION "$_package_name")"
 }
 
+# Install Docker via the installation script by the Docker Team. It is not recommended, but the best way to install Docker on different platforms.
+# Not installing the Rootless Dockerd, because it would prevent the nginx to get the IP of the Requesting Client during the request
+function __install_docker() {
+  if ! _check_installed "curl"; then
+    __install_via_package_manager "curl"
+  fi
+
+  curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+
+  user="$(id -un 2>/dev/null || true)"
+  if [ "$user" != "root" ]; then
+    sudo sh /tmp/get-docker.sh &>/dev/null
+  else
+    sh /tmp/get-docker.sh &>/dev/null
+  fi
+
+  # Post-Installation: Add Docker group to current user
+  if ! _group_exists "docker"; then
+    sudo groupadd docker &>/dev/null
+  fi
+  sudo usermod -aG docker "$USER" &>/dev/null
+  newgrp docker
+}
+
+# DEPRECATED: not in use anymore and no warranty that result will be as expected
 function __install_via_pip() {
   local _package_name
 
@@ -48,44 +63,17 @@ function __install_via_pip() {
 }
 
 function __check_system_installation() {
-  local _arch
-  local _tmp_version
-
-  _arch=$(uname -m)
-
   # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
-  if ! dpkg -l apt &>/dev/null; then
+  if ! _check_installed "apt" &>/dev/null; then
     _error "$(_translate i18n_ERROR_APT_IS_MISSING)"
   fi
 
-  if ! __check_installed "docker"; then
-    __install_via_package_manager "docker"
+  if ! _check_installed "docker"; then
+    __install_docker
   fi
 
-  if ! __check_installed "docker-compose"; then
-    if [ "$_arch" != "x86_64" ]; then
-      if ! __check_installed "python3"; then
-        __install_via_package_manager "python3"
-      fi
-
-      if ! __check_installed "pip"; then
-        __install_via_package_manager "python3-pip"
-      fi
-
-      _tmp_version=$(python --version | sed "s/Python //")
-      if ! _version_higher_or_equals_point_delimiter "$_tmp_version" "3.6"; then
-        _error "$(_translate i18n_ERROR_PYTHON_VERSION_MISMATCH)"
-      fi
-
-      __install_via_pip "docker-compose"
-    else
-      __install_via_package_manager "docker-compose"
-    fi
-  fi
-
-  _tmp_version=$(docker-compose --version | sed "s/docker-compose version //" | sed "s/, build .*//")
-  if ! _version_higher_or_equals_point_delimiter "$_tmp_version" "1.22.0"; then
-    _error "$(_translate i18n_ERROR_DOCKER_COMPOSE_VERSION_MISMATCH)"
+  if ! _check_installed "docker-compose-plugin"; then
+    __install_via_package_manager "docker-compose-plugin"
   fi
 }
 
