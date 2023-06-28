@@ -68,7 +68,7 @@ function __check_system_installation() {
     _error "$(_translate i18n_ERROR_APT_IS_MISSING)"
   fi
 
-  if ! _check_installed "docker"; then
+  if ! _command_exists "docker"; then
     __install_docker
   fi
 
