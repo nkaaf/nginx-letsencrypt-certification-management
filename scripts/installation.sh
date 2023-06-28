@@ -25,7 +25,7 @@ function __check_installed() {
 
   _package_name=$1
 
-  if ! dpkg -s "$_package_name" &>/dev/null; then
+  if ! dpkg --status "$_package_name" &>/dev/null; then
     return 1
   fi
 }
@@ -38,7 +38,7 @@ function __install_via_package_manager() {
   # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
   _echo "yellow" "$(_translate i18n_INFO_INSTALL_NOW "$_package_name")"
   _debug "$(_translate i18n_INSTALL_WITH_PACKAGE_MANAGER "$_package_name")"
-  if ! sudo apt install "$_package_name"; then
+  if ! sudo apt install --yes "$_package_name"; then
     _error "$(_translate i18n_ERROR_WHILE_INSTALLING_PACKAGE_MANAGER "$_package_name")"
   fi
   _echo "green" "$(_translate i18n_SUCCESS_INSTALLATION "$_package_name")"
@@ -78,7 +78,7 @@ function __install_via_pip() {
 
 function __check_system_installation() {
   # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
-  if ! dpkg -s apt &>/dev/null; then
+  if ! dpkg --status apt &>/dev/null; then
     _error "$(_translate i18n_ERROR_APT_IS_MISSING)"
   fi
 
