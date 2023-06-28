@@ -43,9 +43,9 @@ function __install_docker() {
   # Post-Installation: Add Docker group to current user
   if ! _group_exists "docker"; then
     sudo groupadd docker &>/dev/null
-    sudo usermod -aG docker "$USER" &>/dev/null
-    newgrp docker
   fi
+  sudo usermod -aG docker "$USER" &>/dev/null
+  newgrp docker
 }
 
 # DEPRECATED: not in use anymore and no warranty that result will be as expected
