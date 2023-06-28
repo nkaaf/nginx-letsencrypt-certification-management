@@ -12,7 +12,7 @@ function __docker_compose_up() {
 
   _date=$(date '+%Y-%m-%d %H:%M:%S')
   cd "$_main_dir"
-  if ! docker-compose up -d "$1" &>"$_main_dir/logs/docker_compose_up_$1_$_date.log"; then
+  if ! docker compose up -d "$1" &>"$_main_dir/logs/docker_compose_up_$1_$_date.log"; then
     _error "$(_translate i18n_ERROR_FAILED_START_WITH_DOCKER_COMPOSE "$1" "$_main_dir/logs/docker_compose_up_$1_$_date.log")"
   else
     rm -f "$_main_dir/logs/docker_compose_up_$1_$_date.log"

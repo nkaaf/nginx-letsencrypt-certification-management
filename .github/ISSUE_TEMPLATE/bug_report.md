@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Version information (to find in error text which is printed out, please complete the following information):**
 - OS information
 - project version
-- deployment versions (docker & docker-compose)
+- deployment versions (docker & docker compose)
 - software version (certbot or nginx)
 
 **Log (optional, if exists)**
