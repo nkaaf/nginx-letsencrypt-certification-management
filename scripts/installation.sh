@@ -25,7 +25,7 @@ function __check_installed() {
 
   _package_name=$1
 
-  if ! dpkg -l "$_package_name" &>/dev/null; then
+  if ! dpkg -s "$_package_name" &>/dev/null; then
     return 1
   fi
 }
@@ -52,7 +52,7 @@ function __install_docker() {
   curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
 
   user="$(id -un 2>/dev/null || true)"
-  if [ "$user" ] != [ "root" ]; then
+  if [ "$user" != "root" ]; then
     if ! __command_exists "sudo"; then
       __install_via_package_manager "sudo"
     fi
@@ -78,7 +78,7 @@ function __install_via_pip() {
 
 function __check_system_installation() {
   # TODO: support other package managers (see https://github.com/nkaaf/nginx-letsencrypt-certification-management/issues/12)
-  if ! dpkg -l apt &>/dev/null; then
+  if ! dpkg -s apt &>/dev/null; then
     _error "$(_translate i18n_ERROR_APT_IS_MISSING)"
   fi
 
