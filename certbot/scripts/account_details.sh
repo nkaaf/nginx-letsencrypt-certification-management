@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 . "$_scripts_dir/common/common.sh"
-_init_script "$@"
+_init_script "$0"
 
 _command_to_execute=("certbot" "show_account")
 
