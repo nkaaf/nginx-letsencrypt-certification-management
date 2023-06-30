@@ -16,8 +16,9 @@ function _certbot_menu() {
     echo "4. $(_translate i18n_OPTION_REVOKE_CERTIFICATE)"
     echo "5. $(_translate i18n_OPTION_UPDATE_CERTIFICATE)"
     echo "6. $(_translate i18n_OPTION_SHOW_HISTORY)"
-    echo "7. $(_translate i18n_OPTION_EXIT_CERTIFICATION_MENU)"
-    echo "$(_translate i18n_ENTER_NUMBER_MENU "[1-7]")"
+    echo "7. $(_translate i18n_OPTION_GET_ACCOUNT_DETAILS)"
+    echo "8. $(_translate i18n_OPTION_EXIT_CERTIFICATION_MENU)"
+    echo "$(_translate i18n_ENTER_NUMBER_MENU "[1-8]")"
     read -r _answer
     echo "----------"
 
@@ -47,6 +48,9 @@ function _certbot_menu() {
         docker exec -it "${CERTBOT_CONTAINER_NAME}" bash show_history.sh "${LANGUAGE}"
         ;;
       7)
+        docker exec -it "${CERTBOT_CONTAINER_NAME}" bash account_details.sh "${LANGUAGE}"
+        ;;
+      8)
         return 0
         ;;
       *)

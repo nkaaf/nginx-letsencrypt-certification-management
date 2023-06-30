@@ -8,6 +8,7 @@ export i18n_OPTION_CREATE_CERTIFICATE=("Create (wildcard-)certificate" "(Wildcar
 export i18n_OPTION_REVOKE_CERTIFICATE=("Revoke specific certificate" "Spezifisches Zertifikat widerrufen")
 export i18n_OPTION_UPDATE_CERTIFICATE=("Update/Expand specific certificate" "Spezifisches Zertifikat aktualisieren/erweitern")
 export i18n_OPTION_SHOW_HISTORY=("Show Certificate History" "Zertifikat Historie anzeigen")
+export i18n_OPTION_GET_ACCOUNT_DETAILS=("Get Account Details" "Account Details erhalten")
 export i18n_OPTION_EXIT_CERTIFICATION_MENU=("Exit Certification Menu" "Zertifikat Menü verlassen")
 
 # docker.sh
