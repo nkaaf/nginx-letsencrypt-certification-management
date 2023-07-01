@@ -13,6 +13,8 @@ if ! _output_custom_list_of_certificates _cert_name; then
   exit 1
 fi
 
+_get_domains_of_certificate _domains "$_cert_name"
+
 _command_to_execute=("certbot" "revoke" "--noninteractive" "--cert-path" "/etc/letsencrypt/live/$_cert_name/cert.pem")
 
 function __choose_revoke_reason() {
@@ -57,6 +59,6 @@ fi
 
 echo "$(_translate i18n_SUCCESS_REVOKE_CERTIFICATE "$_cert_name")"
 
-_write_action "revoke" "$_cert_name"
+_write_action "revoke" "$_cert_name" "${_domains[@]}"
 
 exit 0
