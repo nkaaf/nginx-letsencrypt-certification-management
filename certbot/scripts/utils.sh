@@ -107,12 +107,9 @@ function _write_action() {
   _certificate=$1
   shift
 
-  _domains=()
-  if [ "$_action" == "update" ] || [ "$_action" == "get" ]; then
-    _domains=("$@")
-  fi
-
   _line="$_certificate"
+
+  _domains=("$@")
 
   for _domain in "${_domains[@]}"; do
     _line="$_line/$_domain"
@@ -121,9 +118,12 @@ function _write_action() {
   echo "$_line" >"/usr/local/share/exchange/actions/$_action.action"
 
   _line="$(date '+%Y-%m-%d %H:%M:%S'): $_certificate ("
+
   for _domain in "${_domains[@]}"; do
     _line="$_line$_domain "
   done
+
   _line="${_line::-1})\n"
+
   echo -e "$_line" >>"/usr/local/share/exchange/history/$_action.history"
 }

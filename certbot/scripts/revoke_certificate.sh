@@ -57,6 +57,8 @@ fi
 
 echo "$(_translate i18n_SUCCESS_REVOKE_CERTIFICATE "$_cert_name")"
 
-_write_action "revoke" "$_cert_name"
+_get_domains_of_certificate _domains "$_cert_name"
+
+_write_action "revoke" "$_cert_name" "${_domains[@]}"
 
 exit 0
