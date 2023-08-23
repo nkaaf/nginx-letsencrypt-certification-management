@@ -58,6 +58,7 @@ sed -i "s/CERTBOT_IMAGE_VERSION.*/CERTBOT_IMAGE_VERSION=${__new_version}/" ".env
   * update version from v1.17.0 to 1.32.0
 * [nginx related](#nginx-related)
   * update version from 1.21.1-alpine to 1.25.1-alpine-slim
+  * update version from 1.25.1-alpine-slim to 1.25.2-alpine-slim
 
 ### 1.3
 
